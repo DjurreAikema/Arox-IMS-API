@@ -1,4 +1,5 @@
 ﻿using AROX.IMS.API.Classes;
+using AROX.IMS.API.Exceptions;
 using AROX.IMS.API.Helpers;
 using IMS.EF.Models;
 using Microsoft.EntityFrameworkCore;
@@ -27,35 +28,41 @@ public class CustomerService(AROX_IMSContext context)
     // Add new customer
     public async Task<CustomerDto> AddCustomer(NewCustomerDto customer)
     {
+        // Add
         var newCustomer = CustomerConverters.ToEntity(customer);
         context.Customers.Add(newCustomer);
         await context.SaveChangesAsync();
 
+        // Return
         return CustomerConverters.ToModel(newCustomer);
     }
 
     // Update customer
     public async Task<CustomerDto> UpdateCustomer(CustomerDto customer)
     {
-        var existingCustomer = await context.Customers.FindAsync(customer.Id);
-        if (existingCustomer == null) throw new Exception("Customer not found");
+        // Validate
+        var existingCustomer = await NotFoundException.EnsureCustomerExists(context, customer.Id);
 
+        // Update
         CustomerConverters.UpdateEntity(existingCustomer, customer);
         context.Entry(existingCustomer).State = EntityState.Modified;
         await context.SaveChangesAsync();
 
+        // Return
         return CustomerConverters.ToModel(existingCustomer);
     }
 
     // Delete customer
     public async Task<Customer> DeleteCustomer(long id)
     {
-        var customer = await context.Customers.FindAsync(id);
-        if (customer == null) throw new Exception("Customer not found");
+        // Validate
+        var customer = await NotFoundException.EnsureCustomerExists(context, id);
 
+        // Delete
         context.Customers.Remove(customer);
         await context.SaveChangesAsync();
 
+        // Return
         return customer;
     }
 }

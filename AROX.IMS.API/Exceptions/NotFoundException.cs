@@ -1,18 +1,20 @@
 ﻿using IMS.EF.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace AROX.IMS.API.Exceptions;
 
 public class NotFoundException(string message) : Exception(message)
 {
-    // Ensure customer exists
-    public static async Task EnsureCustomerExists(AROX_IMSContext context, long customerId)
+    // Ensure customer exists, and return it if it does
+    public static async Task<Customer> EnsureCustomerExists(AROX_IMSContext context, long customerId)
     {
-        var customerExists = await context.Customers.AnyAsync(c => c.Id == customerId);
-        if (!customerExists)
+        var customer = await context.Customers.FindAsync(customerId);
+
+        if (customer == null)
         {
             throw new NotFoundException($"Customer with Id {customerId} not found.");
         }
+
+        return customer;
     }
 
     // Ensure application exists, and return it if it does
