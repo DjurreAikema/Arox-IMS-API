@@ -3,10 +3,10 @@ using IMS.EF.Models;
 
 namespace AROX.IMS.API.Helpers;
 
-public class FieldTypeConverts
+public class FieldTypeConverters
 {
     // Convert EF model to DTO
-    public static FieldTypeDto FieldTypeToFieldTypeDto(FieldType fieldType)
+    public static FieldTypeDto ToModel(FieldType fieldType)
     {
         return new FieldTypeDto
         {
@@ -16,7 +16,7 @@ public class FieldTypeConverts
     }
 
     // Convert DTO to EF model
-    public static FieldType FieldTypeDtoToFieldType(NewFieldTypeDto fieldType)
+    public static FieldType ToEntity(NewFieldTypeDto fieldType)
     {
         return new FieldType
         {
@@ -24,7 +24,7 @@ public class FieldTypeConverts
         };
     }
 
-    public static FieldType FieldTypeDtoToFieldType(FieldTypeDto fieldType)
+    public static FieldType ToEntity(FieldTypeDto fieldType)
     {
         return new FieldType
         {
@@ -34,7 +34,7 @@ public class FieldTypeConverts
     }
 
     // Update EF model with DTO
-    public static void UpdateFieldType(FieldType fieldType, FieldTypeDto fieldTypeModel)
+    public static void UpdateEntity(FieldType fieldType, FieldTypeDto fieldTypeModel)
     {
         fieldType.Type = fieldTypeModel.Type;
     }

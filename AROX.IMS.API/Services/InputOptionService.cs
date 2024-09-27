@@ -1,6 +1,8 @@
-﻿namespace AROX.IMS.API.Services;
+﻿using IMS.EF.Models;
 
-public class InputOptionService
+namespace AROX.IMS.API.Services;
+
+public class InputOptionService(AROX_IMSContext context)
 {
     
 }

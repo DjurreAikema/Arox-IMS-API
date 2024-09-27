@@ -1,6 +1,8 @@
-﻿namespace AROX.IMS.API.Services;
+﻿using IMS.EF.Models;
 
-public class ToolInputService
+namespace AROX.IMS.API.Services;
+
+public class ToolInputService(AROX_IMSContext context)
 {
     
 }

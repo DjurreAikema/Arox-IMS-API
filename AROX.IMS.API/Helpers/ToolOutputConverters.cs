@@ -6,7 +6,7 @@ namespace AROX.IMS.API.Helpers;
 public class ToolOutputConverters
 {
     // Convert EF model to DTO
-    public static ToolOutputDto ToolOutputToToolOutputDto(ToolOutput toolOutput)
+    public static ToolOutputDto ToModel(ToolOutput toolOutput)
     {
         return new ToolOutputDto
         {
@@ -18,7 +18,7 @@ public class ToolOutputConverters
     }
 
     // Convert DTO to EF model
-    public static ToolOutput ToolOutputDtoToToolOutput(NewToolOutputDto toolOutput)
+    public static ToolOutput ToEntity(NewToolOutputDto toolOutput)
     {
         return new ToolOutput
         {
@@ -28,7 +28,7 @@ public class ToolOutputConverters
         };
     }
 
-    public static ToolOutput ToolOutputDtoToToolOutput(ToolOutputDto toolOutput)
+    public static ToolOutput ToEntity(ToolOutputDto toolOutput)
     {
         return new ToolOutput
         {
@@ -40,7 +40,7 @@ public class ToolOutputConverters
     }
 
     // Update EF model with DTO
-    public static void UpdateToolOutput(ToolOutput toolOutput, ToolOutputDto toolOutputModel)
+    public static void UpdateEntity(ToolOutput toolOutput, ToolOutputDto toolOutputModel)
     {
         toolOutput.ToolId = toolOutputModel.ToolId;
         toolOutput.FieldTypeId = toolOutputModel.FieldTypeId;
