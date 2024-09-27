@@ -1,4 +1,5 @@
 ﻿using AROX.IMS.API.Classes;
+using AROX.IMS.API.Helpers;
 using IMS.EF.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,11 +11,7 @@ public class CustomerService(AROX_IMSContext context)
     public async Task<List<CustomerDto>> GetCustomers()
     {
         return await context.Customers
-            .Select(x => new CustomerDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-            })
+            .Select(x => CustomerConverters.ToModel(x))
             .ToListAsync();
     }
 
@@ -23,41 +20,42 @@ public class CustomerService(AROX_IMSContext context)
     {
         return await context.Customers
             .Where(x => x.Id == id)
-            .Select(x => new CustomerDto
-            {
-                Id = x.Id,
-                Name = x.Name,
-            })
+            .Select(x => CustomerConverters.ToModel(x))
             .FirstOrDefaultAsync();
     }
 
     // Add new customer
-    public async Task<Customer> AddCustomer(Customer customer)
+    public async Task<CustomerDto> AddCustomer(CustomerDto customer)
     {
-        context.Customers.Add(customer);
+        var newCustomer = CustomerConverters.ToEntity(customer);
+        context.Customers.Add(newCustomer);
         await context.SaveChangesAsync();
-        return customer;
+
+        return CustomerConverters.ToModel(newCustomer);
     }
 
     // Update customer
-    public async Task<Customer> UpdateCustomer(Customer customer)
+    public async Task<CustomerDto> UpdateCustomer(CustomerDto customer)
     {
-        context.Entry(customer).State = EntityState.Modified;
+        var existingCustomer = await context.Customers.FindAsync(customer.Id);
+        if (existingCustomer == null) throw new Exception("Customer not found");
+
+        CustomerConverters.UpdateEntity(existingCustomer, customer);
+        context.Entry(existingCustomer).State = EntityState.Modified;
         await context.SaveChangesAsync();
-        return customer;
+
+        return CustomerConverters.ToModel(existingCustomer);
     }
 
     // Delete customer
     public async Task<Customer> DeleteCustomer(long id)
     {
         var customer = await context.Customers.FindAsync(id);
-        if (customer == null)
-        {
-            throw new Exception("Customer not found");
-        }
+        if (customer == null) throw new Exception("Customer not found");
 
         context.Customers.Remove(customer);
         await context.SaveChangesAsync();
+
         return customer;
     }
 }
