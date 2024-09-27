@@ -1,6 +1,6 @@
 ﻿namespace AROX.IMS.API.Classes;
 
-public class ToolOutput
+public class ToolOutputModel
 {
     public long Id { get; set; }
     public long ToolId { get; set; }

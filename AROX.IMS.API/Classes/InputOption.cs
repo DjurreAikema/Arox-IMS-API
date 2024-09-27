@@ -1,6 +1,6 @@
 ﻿namespace AROX.IMS.API.Classes;
 
-public class InputOption
+public class InputOptionModel
 {
     public long Id { get; set; }
     public long InputId { get; set; }

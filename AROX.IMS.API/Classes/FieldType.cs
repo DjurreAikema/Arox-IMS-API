@@ -1,6 +1,6 @@
 ﻿namespace AROX.IMS.API.Classes;
 
-public class FieldType
+public class FieldTypeModel
 {
     public long Id { get; set; }
 

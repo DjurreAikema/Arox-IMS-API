@@ -9,9 +9,7 @@ public class CustomerService(AROX_IMSContext context)
     // Get all customers
     public async Task<List<Customer>> GetCustomers()
     {
-        return await context.Customers
-            .Select(c => new Customer { Id = c.Id, Name = c.Name })
-            .ToListAsync();
+        return await context.Customers.ToListAsync();
     }
 
     // Get customer by id
@@ -19,7 +17,6 @@ public class CustomerService(AROX_IMSContext context)
     {
         return await context.Customers
             .Where(c => c.Id == id)
-            .Select(c => new Customer { Id = c.Id, Name = c.Name })
             .FirstOrDefaultAsync();
     }
 
