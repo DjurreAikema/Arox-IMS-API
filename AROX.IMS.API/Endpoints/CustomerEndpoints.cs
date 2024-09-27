@@ -1,7 +1,7 @@
 ﻿using AROX.IMS.API.Classes;
+using AROX.IMS.API.Exceptions;
 using AROX.IMS.API.Services;
 using GeneralTools.AspNetCore.MinimalApi;
-using IMS.EF.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -20,24 +20,73 @@ public class CustomerEndpoints : IMapEndpoints
         // Get customer by id
         app.MapGet("api/customers/{id:long}", async (CustomerService customerService, long id) =>
             {
-                var customer = await customerService.GetCustomer(id);
-                return customer == null ? Results.NotFound() : Results.Ok(customer);
+                try
+                {
+                    var customer = await customerService.GetCustomer(id);
+                    return customer == null ? Results.NotFound() : Results.Ok(customer);
+                }
+                catch (Exception e)
+                {
+                    return Results.Problem(e.Message);
+                }
             })
             .WithTags("Customer");
 
         // Add new customer
         app.MapPost("api/customers", async (CustomerService customerService, NewCustomerDto customer) =>
-                Results.Created("api/customers", await customerService.AddCustomer(customer)))
+            {
+                try
+                {
+                    var result = await customerService.AddCustomer(customer);
+                    return Results.Created("api/customers", result);
+                }
+                catch (NotFoundException ex)
+                {
+                    return Results.NotFound(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem(ex.Message);
+                }
+            })
             .WithTags("Customer");
 
         // Update customer
         app.MapPut("api/customers", async (CustomerService customerService, CustomerDto customer) =>
-                Results.Ok((object?) await customerService.UpdateCustomer(customer)))
+            {
+                try
+                {
+                    var result = await customerService.UpdateCustomer(customer);
+                    return Results.Ok(result);
+                }
+                catch (NotFoundException ex)
+                {
+                    return Results.NotFound(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem(ex.Message);
+                }
+            })
             .WithTags("Customer");
 
         // Delete customer
         app.MapDelete("api/customers/{id:long}", async (CustomerService customerService, long id) =>
-                Results.Ok((object?) await customerService.DeleteCustomer(id)))
+            {
+                try
+                {
+                    var result = await customerService.DeleteCustomer(id);
+                    return Results.Ok(result);
+                }
+                catch (NotFoundException ex)
+                {
+                    return Results.NotFound(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem(ex.Message);
+                }
+            })
             .WithTags("Customer");
     }
 }
