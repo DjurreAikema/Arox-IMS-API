@@ -15,7 +15,7 @@ public class NotFoundException(string message) : Exception(message)
         }
     }
 
-    // Ensure application exists and return it if it does
+    // Ensure application exists, and return it if it does
     public static async Task<Application> EnsureApplicationExists(AROX_IMSContext context, long applicationId)
     {
         var application = await context.Applications.FindAsync(applicationId);
