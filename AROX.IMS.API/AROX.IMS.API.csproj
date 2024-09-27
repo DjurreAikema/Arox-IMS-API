@@ -21,4 +21,11 @@
         <ProjectReference Include="..\IMS.EF\IMS.EF.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="appsettings.json" />
+      <Content Include="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>
