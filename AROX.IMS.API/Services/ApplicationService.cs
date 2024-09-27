@@ -1,4 +1,5 @@
 ﻿using AROX.IMS.API.Classes;
+using AROX.IMS.API.Helpers;
 using IMS.EF.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,48 +8,54 @@ namespace AROX.IMS.API.Services;
 public class ApplicationService(AROX_IMSContext context)
 {
     // Get all applications
-    public async Task<List<Application>> GetApplications()
+    public async Task<List<ApplicationModel>> GetApplications()
     {
-        return await context.Applications.ToListAsync();
+        return await context.Applications
+            .Select(x => ApplicationConverters.ToModel(x))
+            .ToListAsync();
     }
 
     // Get application by id
-    public async Task<Application?> GetApplication(long id)
+    public async Task<ApplicationModel?> GetApplication(long id)
     {
         return await context.Applications
-            .Where(a => a.Id == id)
+            .Where(x => x.Id == id)
+            .Select(x => ApplicationConverters.ToModel(x))
             .FirstOrDefaultAsync();
     }
 
     // Add new application
-    public async Task<Application> AddApplication(ApplicationModel application)
+    public async Task<ApplicationModel> AddApplication(ApplicationModel application)
     {
-        var newApplication = new Application { Name = application.Name, CustomerId = application.CustomerId };
+        var newApplication = ApplicationConverters.ToEntity(application);
         context.Applications.Add(newApplication);
         await context.SaveChangesAsync();
-        return newApplication;
+
+        return ApplicationConverters.ToModel(newApplication);
     }
 
     // Update application
-    public async Task<Application> UpdateApplication(ApplicationModel application)
+    public async Task<ApplicationModel> UpdateApplication(ApplicationModel application)
     {
         var existingApplication = await context.Applications.FindAsync(application.Id);
         if (existingApplication == null) throw new Exception("Application not found");
 
-        existingApplication.Name = application.Name;
+        ApplicationConverters.UpdateEntity(existingApplication, application);
         context.Entry(existingApplication).State = EntityState.Modified;
         await context.SaveChangesAsync();
-        return existingApplication;
+
+        return ApplicationConverters.ToModel(existingApplication);
     }
 
     // Delete application
-    public async Task<Application> DeleteApplication(long id)
+    public async Task<ApplicationModel> DeleteApplication(long id)
     {
         var application = await context.Applications.FindAsync(id);
         if (application == null) throw new Exception("Application not found");
 
         context.Applications.Remove(application);
         await context.SaveChangesAsync();
-        return application;
+
+        return ApplicationConverters.ToModel(application);
     }
 }

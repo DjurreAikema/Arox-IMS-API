@@ -1,7 +1,7 @@
 ﻿using AROX.IMS.API.Classes;
 using AROX.IMS.API.Services;
 using GeneralTools.AspNetCore.MinimalApi;
-
+using IMS.EF.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -24,11 +24,11 @@ public class CustomerEndpoints : IMapEndpoints
         });
 
         // Add new customer
-        app.MapPost("api/customers", async (CustomerService customerService, CustomerModel customer) =>
+        app.MapPost("api/customers", async (CustomerService customerService, Customer customer) =>
             Results.Created("api/customers", await customerService.AddCustomer(customer)));
 
         // Update customer
-        app.MapPut("api/customers", async (CustomerService customerService, CustomerModel customer) =>
+        app.MapPut("api/customers", async (CustomerService customerService, Customer customer) =>
             Results.Ok((object?) await customerService.UpdateCustomer(customer)));
 
         // Delete customer
