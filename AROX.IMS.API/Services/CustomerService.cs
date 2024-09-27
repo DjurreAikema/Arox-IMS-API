@@ -25,7 +25,7 @@ public class CustomerService(AROX_IMSContext context)
     }
 
     // Add new customer
-    public async Task<CustomerDto> AddCustomer(CustomerDto customer)
+    public async Task<CustomerDto> AddCustomer(NewCustomerDto customer)
     {
         var newCustomer = CustomerConverters.ToEntity(customer);
         context.Customers.Add(newCustomer);

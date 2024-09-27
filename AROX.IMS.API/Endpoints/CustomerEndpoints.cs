@@ -26,7 +26,7 @@ public class CustomerEndpoints : IMapEndpoints
             .WithTags("Customer");
 
         // Add new customer
-        app.MapPost("api/customers", async (CustomerService customerService, CustomerDto customer) =>
+        app.MapPost("api/customers", async (CustomerService customerService, NewCustomerDto customer) =>
                 Results.Created("api/customers", await customerService.AddCustomer(customer)))
             .WithTags("Customer");
 

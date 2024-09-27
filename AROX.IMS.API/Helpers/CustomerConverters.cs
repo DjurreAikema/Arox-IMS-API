@@ -16,6 +16,14 @@ public class CustomerConverters
     }
 
     // Convert DTO to EF model
+    public static Customer ToEntity(NewCustomerDto customer)
+    {
+        return new Customer
+        {
+            Name = customer.Name
+        };
+    }
+
     public static Customer ToEntity(CustomerDto customer)
     {
         return new Customer
@@ -24,6 +32,7 @@ public class CustomerConverters
             Name = customer.Name
         };
     }
+
 
     // Update EF model with DTO
     public static void UpdateEntity(Customer customer, CustomerDto customerModel)
