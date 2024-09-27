@@ -1,6 +1,6 @@
 ﻿namespace AROX.IMS.API.Classes;
 
-public class Customer
+public class CustomerModel
 {
     public long Id { get; set; }
 
