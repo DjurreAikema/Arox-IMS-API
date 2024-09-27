@@ -13,25 +13,30 @@ public class ApplicationEndpoints : IMapEndpoints
     {
         // Get all applications
         app.MapGet("api/applications", async (ApplicationService applicationService) =>
-            Results.Ok((object?) await applicationService.GetApplications()));
+                Results.Ok((object?) await applicationService.GetApplications()))
+            .WithTags("Application");
 
         // Get application by id
         app.MapGet("api/applications/{id:long}", async (ApplicationService applicationService, long id) =>
-        {
-            var application = await applicationService.GetApplication(id);
-            return application == null ? Results.NotFound() : Results.Ok(application);
-        });
+            {
+                var application = await applicationService.GetApplication(id);
+                return application == null ? Results.NotFound() : Results.Ok(application);
+            })
+            .WithTags("Application");
 
         // Add new application
         app.MapPost("api/applications", async (ApplicationService applicationService, ApplicationModel application) =>
-            Results.Created("api/applications", await applicationService.AddApplication(application)));
+                Results.Created("api/applications", await applicationService.AddApplication(application)))
+            .WithTags("Application");
 
         // Update application
         app.MapPut("api/applications", async (ApplicationService applicationService, ApplicationModel application) =>
-            Results.Ok((object?) await applicationService.UpdateApplication(application)));
+                Results.Ok((object?) await applicationService.UpdateApplication(application)))
+            .WithTags("Application");
 
         // Delete application
         app.MapDelete("api/applications/{id:long}", async (ApplicationService applicationService, long id) =>
-            Results.Ok((object?) await applicationService.DeleteApplication(id)));
+                Results.Ok((object?) await applicationService.DeleteApplication(id)))
+            .WithTags("Application");
     }
 }
