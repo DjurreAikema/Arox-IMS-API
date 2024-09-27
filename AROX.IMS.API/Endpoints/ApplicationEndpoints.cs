@@ -25,12 +25,12 @@ public class ApplicationEndpoints : IMapEndpoints
             .WithTags("Application");
 
         // Add new application
-        app.MapPost("api/applications", async (ApplicationService applicationService, ApplicationModel application) =>
+        app.MapPost("api/applications", async (ApplicationService applicationService, ApplicationDto application) =>
                 Results.Created("api/applications", await applicationService.AddApplication(application)))
             .WithTags("Application");
 
         // Update application
-        app.MapPut("api/applications", async (ApplicationService applicationService, ApplicationModel application) =>
+        app.MapPut("api/applications", async (ApplicationService applicationService, ApplicationDto application) =>
                 Results.Ok((object?) await applicationService.UpdateApplication(application)))
             .WithTags("Application");
 

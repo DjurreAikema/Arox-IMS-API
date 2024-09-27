@@ -6,9 +6,9 @@ namespace AROX.IMS.API.Helpers;
 public class ApplicationConverters
 {
     // Convert EF model to DTO
-    public static ApplicationModel ToModel(Application application)
+    public static ApplicationDto ToModel(Application application)
     {
-        return new ApplicationModel
+        return new ApplicationDto
         {
             Id = application.Id,
             CustomerId = application.CustomerId,
@@ -17,7 +17,7 @@ public class ApplicationConverters
     }
 
     // Convert DTO to EF model
-    public static Application ToEntity(ApplicationModel application)
+    public static Application ToEntity(ApplicationDto application)
     {
         return new Application
         {
@@ -28,7 +28,7 @@ public class ApplicationConverters
     }
 
     // Update EF model with DTO
-    public static void UpdateEntity(Application application, ApplicationModel applicationModel)
+    public static void UpdateEntity(Application application, ApplicationDto applicationModel)
     {
         application.CustomerId = applicationModel.CustomerId;
         application.Name = applicationModel.Name;

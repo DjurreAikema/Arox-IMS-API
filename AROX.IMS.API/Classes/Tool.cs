@@ -1,6 +1,6 @@
 ﻿namespace AROX.IMS.API.Classes;
 
-public class ToolModel
+public class ToolDto
 {
     public long Id { get; set; }
     public long ApplicationId { get; set; }

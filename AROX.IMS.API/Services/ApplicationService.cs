@@ -8,7 +8,7 @@ namespace AROX.IMS.API.Services;
 public class ApplicationService(AROX_IMSContext context)
 {
     // Get all applications
-    public async Task<List<ApplicationModel>> GetApplications()
+    public async Task<List<ApplicationDto>> GetApplications()
     {
         return await context.Applications
             .Select(x => ApplicationConverters.ToModel(x))
@@ -16,7 +16,7 @@ public class ApplicationService(AROX_IMSContext context)
     }
 
     // Get application by id
-    public async Task<ApplicationModel?> GetApplication(long id)
+    public async Task<ApplicationDto?> GetApplication(long id)
     {
         return await context.Applications
             .Where(x => x.Id == id)
@@ -25,7 +25,7 @@ public class ApplicationService(AROX_IMSContext context)
     }
 
     // Add new application
-    public async Task<ApplicationModel> AddApplication(ApplicationModel application)
+    public async Task<ApplicationDto> AddApplication(ApplicationDto application)
     {
         var newApplication = ApplicationConverters.ToEntity(application);
         context.Applications.Add(newApplication);
@@ -35,7 +35,7 @@ public class ApplicationService(AROX_IMSContext context)
     }
 
     // Update application
-    public async Task<ApplicationModel> UpdateApplication(ApplicationModel application)
+    public async Task<ApplicationDto> UpdateApplication(ApplicationDto application)
     {
         var existingApplication = await context.Applications.FindAsync(application.Id);
         if (existingApplication == null) throw new Exception("Application not found");
@@ -48,7 +48,7 @@ public class ApplicationService(AROX_IMSContext context)
     }
 
     // Delete application
-    public async Task<ApplicationModel> DeleteApplication(long id)
+    public async Task<ApplicationDto> DeleteApplication(long id)
     {
         var application = await context.Applications.FindAsync(id);
         if (application == null) throw new Exception("Application not found");

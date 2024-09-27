@@ -7,10 +7,10 @@ namespace AROX.IMS.API.Services;
 public class CustomerService(AROX_IMSContext context)
 {
     // Get all customers
-    public async Task<List<CustomerModel>> GetCustomers()
+    public async Task<List<CustomerDto>> GetCustomers()
     {
         return await context.Customers
-            .Select(x => new CustomerModel
+            .Select(x => new CustomerDto
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -19,11 +19,11 @@ public class CustomerService(AROX_IMSContext context)
     }
 
     // Get customer by id
-    public async Task<CustomerModel?> GetCustomer(long id)
+    public async Task<CustomerDto?> GetCustomer(long id)
     {
         return await context.Customers
             .Where(x => x.Id == id)
-            .Select(x => new CustomerModel
+            .Select(x => new CustomerDto
             {
                 Id = x.Id,
                 Name = x.Name,
