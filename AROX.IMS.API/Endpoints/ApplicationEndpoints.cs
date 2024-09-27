@@ -1,4 +1,5 @@
 ﻿using AROX.IMS.API.Classes;
+using AROX.IMS.API.Exceptions;
 using AROX.IMS.API.Services;
 using GeneralTools.AspNetCore.MinimalApi;
 using Microsoft.AspNetCore.Builder;
@@ -19,24 +20,73 @@ public class ApplicationEndpoints : IMapEndpoints
         // Get application by id
         app.MapGet("api/applications/{id:long}", async (ApplicationService applicationService, long id) =>
             {
-                var application = await applicationService.GetApplication(id);
-                return application == null ? Results.NotFound() : Results.Ok(application);
+                try
+                {
+                    var application = await applicationService.GetApplication(id);
+                    return application == null ? Results.NotFound() : Results.Ok(application);
+                }
+                catch (Exception e)
+                {
+                    return Results.Problem(e.Message);
+                }
             })
             .WithTags("Application");
 
         // Add new application
         app.MapPost("api/applications", async (ApplicationService applicationService, NewApplicationDto application) =>
-                Results.Created("api/applications", await applicationService.AddApplication(application)))
+            {
+                try
+                {
+                    var result = await applicationService.AddApplication(application);
+                    return Results.Created("api/applications", result);
+                }
+                catch (NotFoundException ex)
+                {
+                    return Results.NotFound(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem(ex.Message);
+                }
+            })
             .WithTags("Application");
 
         // Update application
         app.MapPut("api/applications", async (ApplicationService applicationService, ApplicationDto application) =>
-                Results.Ok((object?) await applicationService.UpdateApplication(application)))
+            {
+                try
+                {
+                    var result = await applicationService.UpdateApplication(application);
+                    return Results.Ok(result);
+                }
+                catch (NotFoundException ex)
+                {
+                    return Results.NotFound(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem(ex.Message);
+                }
+            })
             .WithTags("Application");
 
         // Delete application
         app.MapDelete("api/applications/{id:long}", async (ApplicationService applicationService, long id) =>
-                Results.Ok((object?) await applicationService.DeleteApplication(id)))
+            {
+                try
+                {
+                    var result = await applicationService.DeleteApplication(id);
+                    return Results.Ok(result);
+                }
+                catch (NotFoundException ex)
+                {
+                    return Results.NotFound(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem(ex.Message);
+                }
+            })
             .WithTags("Application");
     }
 }

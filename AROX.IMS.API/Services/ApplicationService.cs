@@ -1,4 +1,5 @@
 ﻿using AROX.IMS.API.Classes;
+using AROX.IMS.API.Exceptions;
 using AROX.IMS.API.Helpers;
 using IMS.EF.Models;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,8 @@ public class ApplicationService(AROX_IMSContext context)
     // Add new application
     public async Task<ApplicationDto> AddApplication(NewApplicationDto application)
     {
+        await NotFoundException.EnsureCustomerExists(context, application.CustomerId);
+
         var newApplication = ApplicationConverters.ToEntity(application);
         context.Applications.Add(newApplication);
         await context.SaveChangesAsync();
@@ -37,8 +40,8 @@ public class ApplicationService(AROX_IMSContext context)
     // Update application
     public async Task<ApplicationDto> UpdateApplication(ApplicationDto application)
     {
-        var existingApplication = await context.Applications.FindAsync(application.Id);
-        if (existingApplication == null) throw new Exception("Application not found");
+        var existingApplication = await NotFoundException.EnsureApplicationExists(context, application.Id);
+        await NotFoundException.EnsureCustomerExists(context, application.CustomerId);
 
         ApplicationConverters.UpdateEntity(existingApplication, application);
         context.Entry(existingApplication).State = EntityState.Modified;
@@ -50,8 +53,7 @@ public class ApplicationService(AROX_IMSContext context)
     // Delete application
     public async Task<ApplicationDto> DeleteApplication(long id)
     {
-        var application = await context.Applications.FindAsync(id);
-        if (application == null) throw new Exception("Application not found");
+        var application = await NotFoundException.EnsureApplicationExists(context, id);
 
         context.Applications.Remove(application);
         await context.SaveChangesAsync();
