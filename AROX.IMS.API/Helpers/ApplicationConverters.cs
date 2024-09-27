@@ -17,6 +17,15 @@ public class ApplicationConverters
     }
 
     // Convert DTO to EF model
+    public static Application ToEntity(NewApplicationDto application)
+    {
+        return new Application
+        {
+            CustomerId = application.CustomerId,
+            Name = application.Name
+        };
+    }
+
     public static Application ToEntity(ApplicationDto application)
     {
         return new Application

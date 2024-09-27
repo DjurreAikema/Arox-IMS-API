@@ -25,7 +25,7 @@ public class ApplicationEndpoints : IMapEndpoints
             .WithTags("Application");
 
         // Add new application
-        app.MapPost("api/applications", async (ApplicationService applicationService, ApplicationDto application) =>
+        app.MapPost("api/applications", async (ApplicationService applicationService, NewApplicationDto application) =>
                 Results.Created("api/applications", await applicationService.AddApplication(application)))
             .WithTags("Application");
 

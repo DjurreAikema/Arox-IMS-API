@@ -25,7 +25,7 @@ public class ApplicationService(AROX_IMSContext context)
     }
 
     // Add new application
-    public async Task<ApplicationDto> AddApplication(ApplicationDto application)
+    public async Task<ApplicationDto> AddApplication(NewApplicationDto application)
     {
         var newApplication = ApplicationConverters.ToEntity(application);
         context.Applications.Add(newApplication);
