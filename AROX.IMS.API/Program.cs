@@ -36,13 +36,13 @@ builder.Services.AddDbContextFactory<AROX_IMSContext>(opt =>
         sqlOpt => sqlOpt.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)));
 
 // --- Services
-builder.Services.AddSingleton<ApplicationService>();
-builder.Services.AddSingleton<CustomerService>();
-builder.Services.AddSingleton<FieldTypeService>();
-builder.Services.AddSingleton<InputOptionService>();
-builder.Services.AddSingleton<ToolInputService>();
-builder.Services.AddSingleton<ToolOutputService>();
-builder.Services.AddSingleton<ToolService>();
+builder.Services.AddScoped<ApplicationService>();
+builder.Services.AddScoped<CustomerService>();
+builder.Services.AddScoped<FieldTypeService>();
+builder.Services.AddScoped<InputOptionService>();
+builder.Services.AddScoped<ToolInputService>();
+builder.Services.AddScoped<ToolOutputService>();
+builder.Services.AddScoped<ToolService>();
 
 // --- API Endpoints
 builder.Services.AddEndpointsApiExplorer();
