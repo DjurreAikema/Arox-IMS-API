@@ -48,7 +48,6 @@ public class ToolInputConverters
     // Update EF model with DTO
     public static void UpdateEntity(ToolInput toolInput, ToolInputDto toolInputModel)
     {
-        toolInput.ToolId = toolInputModel.ToolId;
         toolInput.FieldTypeId = toolInputModel.FieldTypeId;
         toolInput.Name = toolInputModel.Name;
         toolInput.Label = toolInputModel.Label;

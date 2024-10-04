@@ -42,7 +42,6 @@ public class ToolOutputConverters
     // Update EF model with DTO
     public static void UpdateEntity(ToolOutput toolOutput, ToolOutputDto toolOutputModel)
     {
-        toolOutput.ToolId = toolOutputModel.ToolId;
         toolOutput.FieldTypeId = toolOutputModel.FieldTypeId;
         toolOutput.Name = toolOutputModel.Name;
     }
