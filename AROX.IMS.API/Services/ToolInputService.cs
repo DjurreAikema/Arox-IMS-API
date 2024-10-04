@@ -42,12 +42,12 @@ public class ToolInputService(AROX_IMSContext context)
     }
 
     // Update tool input
-    public async Task<ToolInputDto> UpdateToolInput(ToolInputDto toolInput)
+    public async Task<ToolInputDto> UpdateToolInput(long toolInputId, ToolInputDto toolInput)
     {
         // Validate
-        var existingToolInput = await NotFoundException.EnsureToolInputExists(context, toolInput.Id);
-        await NotFoundException.EnsureToolExists(context, toolInput.ToolId);
-        await NotFoundException.EnsureFieldTypeExists(context, toolInput.FieldTypeId);
+        var existingToolInput = await NotFoundException.EnsureToolInputExists(context, toolInputId);
+        await NotFoundException.EnsureToolExists(context, existingToolInput.ToolId);
+        await NotFoundException.EnsureFieldTypeExists(context, existingToolInput.FieldTypeId);
 
         // Update
         ToolInputConverters.UpdateEntity(existingToolInput, toolInput);

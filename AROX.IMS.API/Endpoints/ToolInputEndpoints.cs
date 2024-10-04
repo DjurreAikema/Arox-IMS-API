@@ -13,12 +13,12 @@ public class ToolInputEndpoints : IMapEndpoints
     public static void MapEndpoints(IEndpointRouteBuilder app)
     {
         // Get all tool inputs
-        app.MapGet("api/toolinputs", async (ToolInputService toolInputService) =>
+        app.MapGet("api/tool-inputs", async (ToolInputService toolInputService) =>
                 Results.Ok((object?) await toolInputService.GetToolInputs()))
             .WithTags("ToolInput");
 
         // Get tool input by id
-        app.MapGet("api/toolinputs/{id:long}", async (ToolInputService toolInputService, long id) =>
+        app.MapGet("api/tool-inputs/{id:long}", async (ToolInputService toolInputService, long id) =>
             {
                 try
                 {
@@ -33,12 +33,12 @@ public class ToolInputEndpoints : IMapEndpoints
             .WithTags("ToolInput");
 
         // Add new tool input
-        app.MapPost("api/toolinputs", async (ToolInputService toolInputService, NewToolInputDto toolInput) =>
+        app.MapPost("api/tool-inputs", async (ToolInputService toolInputService, NewToolInputDto toolInput) =>
             {
                 try
                 {
                     var result = await toolInputService.AddToolInput(toolInput);
-                    return Results.Created("api/toolinputs", result);
+                    return Results.Created("api/tool-inputs", result);
                 }
                 catch (NotFoundException ex)
                 {
@@ -52,11 +52,11 @@ public class ToolInputEndpoints : IMapEndpoints
             .WithTags("ToolInput");
 
         // Update tool input
-        app.MapPut("api/toolinputs", async (ToolInputService toolInputService, ToolInputDto toolInput) =>
+        app.MapPut("api/tool-inputs/{id:long}", async (ToolInputService toolInputService, long id, ToolInputDto toolInput) =>
             {
                 try
                 {
-                    var result = await toolInputService.UpdateToolInput(toolInput);
+                    var result = await toolInputService.UpdateToolInput(id, toolInput);
                     return Results.Ok(result);
                 }
                 catch (NotFoundException ex)
@@ -71,7 +71,7 @@ public class ToolInputEndpoints : IMapEndpoints
             .WithTags("ToolInput");
 
         // Delete tool input
-        app.MapDelete("api/toolinputs/{id:long}", async (ToolInputService toolInputService, long id) =>
+        app.MapDelete("api/tool-inputs/{id:long}", async (ToolInputService toolInputService, long id) =>
             {
                 try
                 {
