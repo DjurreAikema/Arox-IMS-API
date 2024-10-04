@@ -39,7 +39,6 @@ public class ApplicationConverters
     // Update EF model with DTO
     public static void UpdateEntity(Application application, ApplicationDto applicationModel)
     {
-        application.CustomerId = applicationModel.CustomerId;
         application.Name = applicationModel.Name;
     }
 }

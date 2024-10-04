@@ -52,11 +52,11 @@ public class ApplicationEndpoints : IMapEndpoints
             .WithTags("Application");
 
         // Update application
-        app.MapPut("api/applications", async (ApplicationService applicationService, ApplicationDto application) =>
+        app.MapPut("api/applications/{id:long}", async (ApplicationService applicationService, long id, ApplicationDto application) =>
             {
                 try
                 {
-                    var result = await applicationService.UpdateApplication(application);
+                    var result = await applicationService.UpdateApplication(id, application);
                     return Results.Ok(result);
                 }
                 catch (NotFoundException ex)

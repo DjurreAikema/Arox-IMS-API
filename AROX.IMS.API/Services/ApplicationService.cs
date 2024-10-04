@@ -41,11 +41,11 @@ public class ApplicationService(AROX_IMSContext context)
     }
 
     // Update application
-    public async Task<ApplicationDto> UpdateApplication(ApplicationDto application)
+    public async Task<ApplicationDto> UpdateApplication(long applicationId, ApplicationDto application)
     {
         // Validate
-        var existingApplication = await NotFoundException.EnsureApplicationExists(context, application.Id);
-        await NotFoundException.EnsureCustomerExists(context, application.CustomerId);
+        var existingApplication = await NotFoundException.EnsureApplicationExists(context, applicationId);
+        await NotFoundException.EnsureCustomerExists(context, existingApplication.CustomerId);
 
         // Update
         ApplicationConverters.UpdateEntity(existingApplication, application);
