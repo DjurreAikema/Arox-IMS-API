@@ -52,11 +52,11 @@ public class ToolEndpoints : IMapEndpoints
             .WithTags("Tool");
 
         // Update tool
-        app.MapPut("api/tools", async (ToolService toolService, ToolDto tool) =>
+        app.MapPut("api/tools/{id:long}", async (ToolService toolService, long id, ToolDto tool) =>
             {
                 try
                 {
-                    var result = await toolService.UpdateTool(tool);
+                    var result = await toolService.UpdateTool(id, tool);
                     return Results.Ok(result);
                 }
                 catch (NotFoundException ex)

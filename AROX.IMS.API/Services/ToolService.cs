@@ -41,11 +41,11 @@ public class ToolService(AROX_IMSContext context)
     }
 
     // Update tool
-    public async Task<ToolDto> UpdateTool(ToolDto tool)
+    public async Task<ToolDto> UpdateTool(long toolId, ToolDto tool)
     {
         // Validate
-        var existingTool = await NotFoundException.EnsureToolExists(context, tool.Id);
-        await NotFoundException.EnsureApplicationExists(context, tool.ApplicationId);
+        var existingTool = await NotFoundException.EnsureToolExists(context, toolId);
+        await NotFoundException.EnsureApplicationExists(context, existingTool.ApplicationId);
 
         // Update
         ToolConverters.UpdateEntity(existingTool, tool);
