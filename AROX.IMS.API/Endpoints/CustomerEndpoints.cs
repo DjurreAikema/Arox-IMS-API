@@ -52,11 +52,11 @@ public class CustomerEndpoints : IMapEndpoints
             .WithTags("Customer");
 
         // Update customer
-        app.MapPut("api/customers", async (CustomerService customerService, CustomerDto customer) =>
+        app.MapPut("api/customers/{id:long}", async (CustomerService customerService, long id, CustomerDto customer) =>
             {
                 try
                 {
-                    var result = await customerService.UpdateCustomer(customer);
+                    var result = await customerService.UpdateCustomer(id, customer);
                     return Results.Ok(result);
                 }
                 catch (NotFoundException ex)

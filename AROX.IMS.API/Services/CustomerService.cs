@@ -38,10 +38,10 @@ public class CustomerService(AROX_IMSContext context)
     }
 
     // Update customer
-    public async Task<CustomerDto> UpdateCustomer(CustomerDto customer)
+    public async Task<CustomerDto> UpdateCustomer(long customerId, CustomerDto customer)
     {
         // Validate
-        var existingCustomer = await NotFoundException.EnsureCustomerExists(context, customer.Id);
+        var existingCustomer = await NotFoundException.EnsureCustomerExists(context, customerId);
 
         // Update
         CustomerConverters.UpdateEntity(existingCustomer, customer);
