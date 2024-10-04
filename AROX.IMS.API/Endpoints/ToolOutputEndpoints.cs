@@ -13,12 +13,12 @@ public class ToolOutputEndpoints : IMapEndpoints
     public static void MapEndpoints(IEndpointRouteBuilder app)
     {
         // Get all tool outputs
-        app.MapGet("api/tooloutputs", async (ToolOutputService toolOutputService) =>
+        app.MapGet("api/tool-outputs", async (ToolOutputService toolOutputService) =>
                 Results.Ok((object?) await toolOutputService.GetToolOutputs()))
             .WithTags("ToolOutput");
 
         // Get tool output by id
-        app.MapGet("api/tooloutputs/{id:long}", async (ToolOutputService toolOutputService, long id) =>
+        app.MapGet("api/tool-outputs/{id:long}", async (ToolOutputService toolOutputService, long id) =>
             {
                 try
                 {
@@ -33,12 +33,12 @@ public class ToolOutputEndpoints : IMapEndpoints
             .WithTags("ToolOutput");
 
         // Add new tool output
-        app.MapPost("api/tooloutputs", async (ToolOutputService toolOutputService, NewToolOutputDto toolOutput) =>
+        app.MapPost("api/tool-outputs", async (ToolOutputService toolOutputService, NewToolOutputDto toolOutput) =>
             {
                 try
                 {
                     var result = await toolOutputService.AddToolOutput(toolOutput);
-                    return Results.Created("api/tooloutputs", result);
+                    return Results.Created("api/tool-outputs", result);
                 }
                 catch (NotFoundException ex)
                 {
@@ -52,11 +52,11 @@ public class ToolOutputEndpoints : IMapEndpoints
             .WithTags("ToolOutput");
 
         // Update tool output
-        app.MapPut("api/tooloutputs", async (ToolOutputService toolOutputService, ToolOutputDto toolOutput) =>
+        app.MapPut("api/tool-outputs", async (ToolOutputService toolOutputService, long id, ToolOutputDto toolOutput) =>
             {
                 try
                 {
-                    var result = await toolOutputService.UpdateToolOutput(toolOutput);
+                    var result = await toolOutputService.UpdateToolOutput(id, toolOutput);
                     return Results.Ok(result);
                 }
                 catch (NotFoundException ex)
@@ -71,7 +71,7 @@ public class ToolOutputEndpoints : IMapEndpoints
             .WithTags("ToolOutput");
 
         // Delete tool output
-        app.MapDelete("api/tooloutputs/{id:long}", async (ToolOutputService toolOutputService, long id) =>
+        app.MapDelete("api/tool-outputs/{id:long}", async (ToolOutputService toolOutputService, long id) =>
             {
                 try
                 {

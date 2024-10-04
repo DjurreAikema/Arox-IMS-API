@@ -42,12 +42,12 @@ public class ToolOutputService(AROX_IMSContext context)
     }
 
     // Update tool output
-    public async Task<ToolOutputDto> UpdateToolOutput(ToolOutputDto toolOutput)
+    public async Task<ToolOutputDto> UpdateToolOutput(long toolOutputId, ToolOutputDto toolOutput)
     {
         // Validate
-        var existingToolOutput = await NotFoundException.EnsureToolOutputExists(context, toolOutput.Id);
-        await NotFoundException.EnsureToolExists(context, toolOutput.ToolId);
-        await NotFoundException.EnsureFieldTypeExists(context, toolOutput.FieldTypeId);
+        var existingToolOutput = await NotFoundException.EnsureToolOutputExists(context, toolOutputId);
+        await NotFoundException.EnsureToolExists(context, existingToolOutput.ToolId);
+        await NotFoundException.EnsureFieldTypeExists(context, existingToolOutput.FieldTypeId);
 
         // Update
         ToolOutputConverters.UpdateEntity(existingToolOutput, toolOutput);
