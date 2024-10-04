@@ -41,11 +41,11 @@ public class InputOptionService(AROX_IMSContext context)
     }
 
     // Update input option
-    public async Task<InputOptionDto> UpdateInputOption(InputOptionDto inputOption)
+    public async Task<InputOptionDto> UpdateInputOption(long inputOptionId, InputOptionDto inputOption)
     {
         // Validate
-        var existingInputOption = await NotFoundException.EnsureInputOptionExists(context, inputOption.Id);
-        await NotFoundException.EnsureToolInputExists(context, inputOption.InputId);
+        var existingInputOption = await NotFoundException.EnsureInputOptionExists(context, inputOptionId);
+        await NotFoundException.EnsureToolInputExists(context, existingInputOption.InputId);
 
         // Update
         InputOptionConverters.UpdateEntity(existingInputOption, inputOption);

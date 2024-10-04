@@ -42,7 +42,6 @@ public class InputOptionConverters
     // Update EF model with DTO
     public static void UpdateEntity(InputOption inputOption, InputOptionDto inputOptionModel)
     {
-        inputOption.InputId = inputOptionModel.InputId;
         inputOption.Label = inputOptionModel.Label;
         inputOption.Value = inputOptionModel.Value;
     }

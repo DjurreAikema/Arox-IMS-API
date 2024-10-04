@@ -13,12 +13,12 @@ public class InputOptionEndpoints : IMapEndpoints
     public static void MapEndpoints(IEndpointRouteBuilder app)
     {
         // Get all input options
-        app.MapGet("api/inputoptions", async (InputOptionService inputOptionService) =>
+        app.MapGet("api/input-options", async (InputOptionService inputOptionService) =>
                 Results.Ok((object?) await inputOptionService.GetInputOptions()))
             .WithTags("InputOption");
 
         // Get input option by id
-        app.MapGet("api/inputoptions/{id:long}", async (InputOptionService inputOptionService, long id) =>
+        app.MapGet("api/input-options/{id:long}", async (InputOptionService inputOptionService, long id) =>
             {
                 try
                 {
@@ -33,12 +33,12 @@ public class InputOptionEndpoints : IMapEndpoints
             .WithTags("InputOption");
 
         // Add new input option
-        app.MapPost("api/inputoptions", async (InputOptionService inputOptionService, NewInputOptionDto inputOption) =>
+        app.MapPost("api/input-options", async (InputOptionService inputOptionService, NewInputOptionDto inputOption) =>
             {
                 try
                 {
                     var result = await inputOptionService.AddInputOption(inputOption);
-                    return Results.Created("api/inputoptions", result);
+                    return Results.Created("api/input-options", result);
                 }
                 catch (NotFoundException ex)
                 {
@@ -52,11 +52,11 @@ public class InputOptionEndpoints : IMapEndpoints
             .WithTags("InputOption");
 
         // Update input option
-        app.MapPut("api/inputoptions", async (InputOptionService inputOptionService, InputOptionDto inputOption) =>
+        app.MapPut("api/input-options/{id:long}", async (InputOptionService inputOptionService, long id, InputOptionDto inputOption) =>
             {
                 try
                 {
-                    var result = await inputOptionService.UpdateInputOption(inputOption);
+                    var result = await inputOptionService.UpdateInputOption(id, inputOption);
                     return Results.Ok(result);
                 }
                 catch (NotFoundException ex)
@@ -71,7 +71,7 @@ public class InputOptionEndpoints : IMapEndpoints
             .WithTags("InputOption");
 
         // Delete input option
-        app.MapDelete("api/inputoptions/{id:long}", async (InputOptionService inputOptionService, long id) =>
+        app.MapDelete("api/input-options/{id:long}", async (InputOptionService inputOptionService, long id) =>
             {
                 try
                 {
