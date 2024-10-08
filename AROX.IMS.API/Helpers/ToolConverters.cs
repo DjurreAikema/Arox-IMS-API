@@ -42,7 +42,6 @@ public class ToolConverters
     // Update EF model with DTO
     public static void UpdateEntity(Tool tool, ToolDto toolModel)
     {
-        tool.ApplicationId = toolModel.ApplicationId;
         tool.Name = toolModel.Name;
         tool.ApiEndpoint = toolModel.ApiEndpoint;
     }
