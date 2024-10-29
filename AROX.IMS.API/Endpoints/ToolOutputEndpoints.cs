@@ -52,7 +52,7 @@ public class ToolOutputEndpoints : IMapEndpoints
             .WithTags("ToolOutput");
 
         // Update tool output
-        app.MapPut("api/tool-outputs", async (ToolOutputService toolOutputService, long id, ToolOutputDto toolOutput) =>
+        app.MapPut("api/tool-outputs/{id:long}", async (ToolOutputService toolOutputService, long id, ToolOutputDto toolOutput) =>
             {
                 try
                 {
