@@ -53,7 +53,7 @@ public class CustomerService(AROX_IMSContext context)
     }
 
     // Delete customer
-    public async Task<Customer> DeleteCustomer(long id)
+    public async Task<CustomerDto> DeleteCustomer(long id)
     {
         // Validate
         var customer = await NotFoundException.EnsureCustomerExists(context, id);
@@ -63,6 +63,6 @@ public class CustomerService(AROX_IMSContext context)
         await context.SaveChangesAsync();
 
         // Return
-        return customer;
+        return CustomerConverters.ToModel(customer);
     }
 }
